@@ -1,0 +1,44 @@
+﻿@using UINProject.Models;
+@model Especialidades
+
+@{
+    ViewBag.Title = "AgregarEditarEspecialidad";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+
+            @if (Model.IdEspecialidad > 0)
+            {
+
+
+                <h2 class="text-center text-primary">Editar Especialidad</h2>
+            }
+            else
+            {
+                <h2 class="text-center text-primary">Agregar Especialidad</h2>
+            }
+
+            <br />
+
+            @using (Html.BeginForm())
+            {
+                @Html.HiddenFor(x => x.IdEspecialidad)
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <lable>Nombre de la Especialidad</lable>
+                        <br />
+                        @Html.TextBoxFor(x => x.NombreEspecialidad, htmlAttributes: new { @class = "form-group" })
+                        @Html.ValidationMessageFor(x => x.NombreEspecialidad, null, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+
+                    <button class="btn btn-success"><i class="glyphicon glyphicon-save">Guardar</i></button>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+

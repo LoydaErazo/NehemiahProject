@@ -1,0 +1,99 @@
+﻿@using UINProject.Models
+@model List<Departamentos>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container-fluid">
+    <div class="row">
+
+        @*Imagen logo de la presentacion*@
+        <div class="col-md-2">
+            <img src="~/Images/main university logo (1).png" />
+        </div>
+
+        @*Titulo de la pagina*@
+        <div class="col-md-8">
+            <h1 class="text-center text-primary">Nehemiah International University</h1>
+            <h3 class="text-center text-primary">Listado de Departamentos</h3>
+            <br />
+            <br />
+            @*Boton de agregar*@
+            <button class="btn btn-default" onclick="window.location.href= '/Departamento/AgregarEditarDepartamento'">
+                <i class="glyphicon glyphicon-plus-sign">Agregar Departamento</i>
+            </button>
+
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Departamentos</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() > 0)
+                    {
+                        foreach (var d in Model)
+                        {
+                            <tr>
+                                <td>@d.NombreDepartamento</td>
+
+                                <td>
+                                    <button class="btn btn-success" onclick="window.location.href= '/Departamento/AgregarEditarDepartamento?IdDireccion=' + @d.IdDireccion"><i class="glyphicon glyphicon-pencil">Editar</i></button>
+                                    <button class="btn btn-danger" data-toggle="modal" data-target="#Eliminar" onclick="Llenar('@d.IdDireccion', '@d.NombreDepartamento')">
+                                        <i class=" glyphicon glyphicon-trash">Eliminar</i>
+                                    </button>
+                                    <button class="btn btn-primary "><i class="glyphicon glyphicon-eye-open">Asignar</i></button>
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2" class="text-center">
+                                <b class="text-danger">¡No hay datos que mostrar!</b>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="Eliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Desea eliminar el departamento <span id="NameDepartamento"></span>?</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Si lo elimina ya no aperecerá en la lista departamentos !!!
+                <input type="hidden" id="IdDireccion" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary glyphicon glyphicon-check" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger glyphicon glyphicon-trash" onclick="Eliminar()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Llenar(id, nombre) {
+        document.getElementById("NameDepartamento").innerHTML = nombre;
+        document.getElementById("IdDireccion").value = id;
+
+    }
+    function Eliminar() {
+        var id = document.getElementById("IdDireccion").value;
+        window.location.href = '/Departamento/EliminarDepartamento?IdDireccion=' + id;
+    }
+</script>

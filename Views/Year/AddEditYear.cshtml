@@ -1,0 +1,36 @@
+﻿@using UINProject.Models
+@model Years
+@{
+    ViewBag.Title = "AddEditYear";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            @if (Model.IdYear > 0)
+            {
+                <h2 class="text-center text-primary"> Edit the Year</h2>
+            }
+            else
+            {
+                <h2 class="text-center text-primary"> Add a new Year</h2>
+            }
+            <br />
+
+            @using (Html.BeginForm())
+            {
+                @Html.HiddenFor(x => x.IdYear)
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Name of the new Year: </label>
+                        <br />
+                        @Html.TextBoxFor(x => x.NombreYear, htmlAttributes: new { @class = "form-grup" })
+                        @Html.ValidationMessageFor(x => x.NombreYear, null, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                    <button class="btn btn-success"><i class="glyphicon glyphicon-save"></i> Save</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

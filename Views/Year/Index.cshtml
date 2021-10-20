@@ -1,0 +1,105 @@
+﻿@using UINProject.Models
+@model List<Years>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3">
+            <br />
+            <br />
+            <center><img src="~/Images/university.png" /></center>
+        </div>
+        <div class="col-lg-6">
+            <h1 class="text-center text-primary">Nehemiah International University</h1>
+            <h3 class="text-center text-primary">List of Years for each Cohorte</h3>
+            <br />
+            <br />
+            <button class="btn btn-default"
+                    onclick="window.location.href='/Year/AddEditYear'">
+
+                <i class="glyphicon glyphicon-plus-sign"></i> Add Year
+            </button>
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Years</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() > 0)
+                    {
+                        foreach (var y in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @y.NombreYear
+                                </td>
+                                <td>
+                                    <button class="btn btn-success" onclick="window.location.href='/Year/AddEditYear?IdYear='+@y.IdYear">
+                                        <i class="glyphicon glyphicon-pencil"></i> Editar
+                                    </button>
+                                    <button class="btn btn-danger" data-toggle="modal" data-target="#Eliminar"
+                                            onclick="Llenar('@y.IdYear','@y.NombreYear')"
+                                            @*onclick="window.location.href='/Year/DeleteYear?IdYear='+@y.IdYear"*@>
+                                        <i class="glyphicon glyphicon-trash"></i> Eliminar
+                                    </button>
+                                  
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2" class="text-center">
+                                <b class="text-danger">No hay datos para mostrar!!</b>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-3">
+            <br />
+            <br />
+            <center><img src="~/Images/university.png" /></center>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="Eliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Desea eliminar the year <span id="yearName"></span>?</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Si lo elimina ya no aperecera en su years list !!!
+                <input type="hidden" id="IdYear" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary glyphicon glyphicon-check" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger glyphicon glyphicon-trash" onclick="Eliminar()">Acept</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Llenar(id, nombre) {
+        document.getElementById('yearName').innerHTML = nombre;
+        document.getElementById('IdYear').value = id;
+    }
+    function Eliminar()
+    {
+        var id = document.getElementById('IdYear').value;
+        window.location.href = '/Year/DeleteYear?IdYear=' + id;
+    }
+</script>

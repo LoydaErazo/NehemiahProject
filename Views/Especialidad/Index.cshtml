@@ -1,0 +1,105 @@
+﻿@using UINProject.Models;
+@model List<Especialidades>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2">
+            <br />
+            <br />
+            <center><img src="~/Images/university.png" /></center>
+        </div>
+       
+        <div class="col-lg-8">
+            <h1 class="text-center text-primary"> Nehemiah International University </h1>
+            <h3 class="text-center text-primary"> Especialidades </h3>
+            <br />
+            <br />
+            <button class="btn btn-success" onclick="window.location.href='/Especialidad/AgregarEditarEspecialidad'">
+                <i class="glyphicon glyphicon-plus-sign" > Añadir Especialidad </i>
+            </button>
+            <br />
+            <br />
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th> Especialidades </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() > 0)
+                    {
+                        foreach (var e in Model)
+                        {
+                            <tr>
+                                <td>@e.NombreEspecialidad</td>
+                                <td>
+                                    <button class="btn btn-success" onclick="window.location.href='Especialidad/AgregarEditarEspecialidad?IdEspecialidad=' +@e.IdEspecialidad">
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                        Editar
+                                    </button>
+                                    <button class="btn btn-danger" data-toggle="modal" data-target="#Eliminar"
+                                            onclick="LlenadoDatos('@e.IdEspecialidad','@e.NombreEspecialidad')">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Eliminar
+                                    </button>
+                                    <button class="btn btn-primary" onclick="window.location.href='/Especialidad/AsignarEstudiantes?IdEspecialidad='+@e.IdEspecialidad">
+                                        <i class="glyphicon glyphicon-check"></i>
+                                        Asignar
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2" class="text-center">
+                                <b class="text-center text-danger"> No existen datos que mostrar! </b>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+           
+        </div>
+
+        <!-- Modal para funcionamiento de botones-->
+        <div class="modal fade" id="Eliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLabel"> Desea eliminar la <span id="NombreEspecialidad"></span>?</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Si elimina el dato, este ya no aparecera en su registro !
+                        <input type="hidden" id="IdEspecialidad" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary glyphicon glyphicon-check" data-dismiss="modal"> Cancelar </button>
+                        <button type="button" class="btn btn-danger glyphicon glyphicon-trash" onclick="Eliminar()"> Aceptar </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script>
+    function LlenadoDatos(id, nombre) {
+        document.getElementById('NombreEspecialidad').innerHTML = nombre;
+        document.getElementById('IdEspecialidad').value = id;
+    }
+    function Eliminar() {
+        var id = document.getElementById('IdEspecialidad').value;
+        window.location.href = '/Especialidad/EliminarEspecialidades?IdEspecialidad=' + id;
+
+    }
+</script>
